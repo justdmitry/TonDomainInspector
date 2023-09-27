@@ -4,19 +4,30 @@
     import History from "$lib/History.svelte";
 
     import { onMount } from "svelte";
-    import { DomainInfo } from "$lib/DomainInfo";
+    import type { DomainInfo } from "$lib/DomainInfo";
 
     let domain: string = "";
     let domainInfo: DomainInfo | null;
-    let history: string[] | null;
+    let searchForm: SearchForm;
+    let history: History;
 
     onMount(() => {
         // emulate delay
-        setTimeout(() => {
-            domainInfo = new DomainInfo();
-            history = ["foundation.ton" ];
-        }, 1000);
+        // setTimeout(() => {
+        //     domainInfo = new DomainInfo();
+        // }, 1000);
     });
+
+    function doSearch(event: CustomEvent<string>) {
+        let dm = event.detail;
+        history.add(dm);
+        console.log(dm);
+    }
+
+    function restoreFromHistory(event: CustomEvent<string>) {
+        searchForm.setDomain(event.detail);
+        domainInfo = null;
+    }
 </script>
 
 <h1>TON Domain Inspector</h1>
@@ -25,10 +36,10 @@
     status, renewal time and DNS records.
 </p>
 
-<SearchForm domain={domain} />
+<SearchForm bind:this={searchForm} bind:domain={domain} on:search={doSearch} />
 
 <DomainDetails domain={domainInfo} />
 
-<History domains={history} />
+<History bind:this={history} on:restore={restoreFromHistory} />
 
-<p class="mt-5 small muted">Debug info: Telegram Bot API v?.?.</p>
+<p class="mt-5 small muted">Debug info: Telegram Bot API v{Telegram.WebApp.version}</p>
