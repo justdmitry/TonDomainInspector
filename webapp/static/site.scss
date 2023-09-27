@@ -1,0 +1,127 @@
+/*
+Telegram theme color variables (listed at https://core.telegram.org/bots/webapps#themeparams):
+var(--tg-theme-bg-color)
+var(--tg-theme-text-color)
+var(--tg-theme-hint-color)
+var(--tg-theme-link-color)
+var(--tg-theme-button-color)
+var(--tg-theme-button-text-color)
+var(--tg-theme-secondary-bg-color)
+*/
+
+@import './normalize.min.css';
+@import './skeleton.css';
+
+/* Skeleton overrides */
+body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+}
+
+h1 {
+    font-size: 3.6rem;
+}
+
+h2 {
+    font-size: 3.3rem;
+}
+
+h3 {
+    margin-bottom: 1rem;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+    background-color: var(--tg-theme-bg-color);
+    border-color: var(--tg-theme-hint-color);
+    color: var(--th-theme-text-color);
+}
+
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--tg-theme-button-color);
+    outline: 0;
+}
+
+.errorText {
+    margin-top: -1.5rem;
+    color: var(--tg-theme-link-color);
+    font-size: 90%;
+    display: block;
+    margin-bottom: 1.5rem;
+    padding: 0 10px;
+}
+
+.button-primary, .button-primary:hover {
+    background-color: var(--tg-theme-button-color) !important;
+    border-color: var(--tg-theme-button-color) !important;
+    color: var(--tg-theme-button-text-color) !important;
+}
+
+.button-primary:disabled {
+    background-color: var(--tg-theme-secondary-bg-color) !important;
+    border-color: var(--tg-theme-secondary-bg-color) !important;
+    color: var(--tg-theme-hint-color) !important;
+}
+
+.button, .button:hover {
+    background-color: var(--tg-theme-secondary-bg-color);
+    border-color: var(--tg-theme-text-color);
+    color: var(--tg-theme-text-color);
+}
+
+code {
+    background-color: var(--tg-theme-secondary-bg-color);
+    border-color: var(--tg-theme-hint-color);
+}
+
+/* Custom classes */
+
+.muted {
+    color: var(--tg-theme-hint-color);
+}
+
+.small {
+    font-size: 80%;
+}
+
+.mt-5 {
+    margin-top: 5rem;
+}
+
+dl, dt, dd {
+    margin: 0;
+    padding: 0;
+}
+
+dt {
+    margin-top: 0.5rem;
+    margin-bottom: -0.2rem;
+    color: var(--tg-theme-hint-color);
+}
+
+dd {
+    padding-left: 2rem;
+    line-height: 1.3;
+}
+
+dd > pre {
+    margin: 0;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
