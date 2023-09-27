@@ -3,25 +3,23 @@
     import DomainDetails from "$lib/DomainDetails.svelte";
     import History from "$lib/History.svelte";
 
-    import { onMount } from "svelte";
     import type { DomainInfo } from "$lib/DomainInfo";
+
+    import { PUBLIC_SERVER } from '$env/static/public';
 
     let domain: string = "";
     let domainInfo: DomainInfo | null;
     let searchForm: SearchForm;
     let history: History;
 
-    onMount(() => {
-        // emulate delay
-        // setTimeout(() => {
-        //     domainInfo = new DomainInfo();
-        // }, 1000);
-    });
-
     function doSearch(event: CustomEvent<string>) {
         let dm = event.detail;
+        domainInfo = null;
         history.add(dm);
-        console.log(dm);
+        fetch(PUBLIC_SERVER + "?domain=" + dm)
+            .then(r => r.json())
+            .then(r => { domainInfo = r as DomainInfo; domainInfo.FullName = dm; })
+            .finally(() => { searchForm.loadingCompleted(); });
     }
 
     function restoreFromHistory(event: CustomEvent<string>) {
@@ -38,7 +36,7 @@
 
 <SearchForm bind:this={searchForm} bind:domain={domain} on:search={doSearch} />
 
-<DomainDetails domain={domainInfo} />
+<DomainDetails bind:domain={domainInfo} />
 
 <History bind:this={history} on:restore={restoreFromHistory} />
 

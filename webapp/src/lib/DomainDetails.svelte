@@ -1,23 +1,29 @@
 <script lang="ts">
     import type { DomainInfo } from "$lib/DomainInfo";
+    import { slide } from 'svelte/transition';
     export let domain: DomainInfo | null;
 </script>
 
 {#if domain}
+<div transition:slide>
     <h3>{domain.FullName}</h3>
     <dl>
         <dt>Address</dt>
-        <dd><pre>{domain.Address}</pre></dd>
+        <dd><pre><a target="_blank" href="https://tonscan.org/address/{domain.Address}">{domain.Address}</a></pre></dd>
         <dt>Deployed</dt>
-        <dd>{domain.Deployed}</dd>
+        <dd>{domain.IsDeployed}</dd>
         <dt>Index</dt>
         <dd><pre>{domain.Index}</pre></dd>
         <dt>Collection address</dt>
-        <dd><pre>{domain.Collection}</pre></dd>
+        <dd><pre>{domain.CollectionAddress}</pre></dd>
         <dt>Domain</dt>
         <dd>{domain.Domain}</dd>
         <dt>Owner address</dt>
-        <dd><pre>{domain.Owner}</pre></dd>
+        {#if domain.OwnerAddress }
+            <dd><pre><a target="_blank" href="https://tonscan.org/address/{domain.OwnerAddress}">{domain.OwnerAddress}</a></pre></dd>
+        {:else}
+            <dd>none</dd>
+        {/if}
         <dt>Auction info</dt>
         {#if domain.AuctionInfo }
             <dd>
@@ -25,7 +31,7 @@
                     <dt>MaxBid</dt>
                     <dd>{domain.AuctionInfo.MaxBidAmount}</dd>
                     <dt>MaxBid address</dt>
-                    <dd><pre>{domain.AuctionInfo.MaxBidAddress}</pre></dd>
+                    <dd><pre><a target="_blank" href="https://tonscan.org/address/{domain.AuctionInfo.MaxBidAddress}">{domain.AuctionInfo.MaxBidAddress}</a></pre></dd>
                     <dt>End time</dt>
                     <dd>{domain.AuctionInfo.AuctionEndTime}</dd>
                 </dl>
@@ -39,36 +45,36 @@
         <dd>
             <dl>
                 <dt>wallet</dt>
-                {#if domain.DnsEntries.Wallet }
-                    <dd><pre>{domain.DnsEntries.Wallet}</pre></dd>
+                {#if domain.Entries?.Wallet }
+                    <dd><pre>{domain.Entries.Wallet}</pre></dd>
                 {:else}
                     <dd>none</dd>
                 {/if}
 
                 <dt>site (ADNL)</dt>
-                {#if domain.DnsEntries.SiteADNL }
-                    <dd><pre>{domain.DnsEntries.SiteADNL}</pre></dd>
+                {#if domain.Entries?.SiteToAdnl }
+                    <dd><pre>{domain.Entries?.SiteToAdnl}</pre></dd>
                 {:else}
                     <dd>none</dd>
                 {/if}
 
                 <dt>site (Storage)</dt>
-                {#if domain.DnsEntries.SiteStorage }
-                    <dd><pre>{domain.DnsEntries.SiteStorage}</pre></dd>
+                {#if domain.Entries?.SiteToStorage }
+                    <dd><pre>{domain.Entries?.SiteToStorage}</pre></dd>
                 {:else}
                     <dd>none</dd>
                 {/if}
 
                 <dt>storage</dt>
-                {#if domain.DnsEntries.Storage }
-                    <dd><pre>{domain.DnsEntries.Storage}</pre></dd>
+                {#if domain.Entries?.Storage }
+                    <dd><pre>{domain.Entries?.Storage}</pre></dd>
                 {:else}
                     <dd>none</dd>
                 {/if}
 
                 <dt>dnsNextResolver</dt>
-                {#if domain.DnsEntries.NextResolver }
-                    <dd><pre>{domain.DnsEntries.NextResolver}</pre></dd>
+                {#if domain.Entries?.DnsNextResolver }
+                    <dd><pre>{domain.Entries?.DnsNextResolver}</pre></dd>
                 {:else}
                     <dd>none</dd>
                 {/if}
@@ -77,4 +83,5 @@
     </dl>
 
     <hr />
+</div>
 {/if}

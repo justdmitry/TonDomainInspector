@@ -1,11 +1,15 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import Loader from "$lib/Loader.svelte";
 
     export let domain: string;
 
     const dispatch = createEventDispatcher();
 
+    let loading: boolean = false;
+
     function onSearchPressed() : any {
+        loading = true;
         dispatch("search", fullDomain);
     }
 
@@ -14,11 +18,17 @@
         tryNormalize();
     }
 
+    export function loadingCompleted()
+    {
+        loading = false;
+    }
+
     let ok: boolean = false;
     let fullDomain: string = "";
     let errorText: string = "";
 
     function tryNormalize () {
+        domain = domain.trim();
         if (domain == "") return setError("");
         if (domain.length < 3) return setError("Domain must have at least 3 characters");
         let parts = domain.toLowerCase().split(".");
@@ -66,5 +76,9 @@
         />
         <span class="errorText">{errorText}</span>
     </div>
-    <button class="u-full-width button-primary" disabled={!ok} on:click={onSearchPressed}>Get info</button>
+    {#if loading}
+        <Loader />
+    {:else }
+        <button class="u-full-width button-primary" disabled={!ok} on:click={onSearchPressed}>Get info</button>
+    {/if}
 </form>
