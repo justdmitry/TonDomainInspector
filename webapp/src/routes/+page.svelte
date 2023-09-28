@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
     import SearchForm from "$lib/SearchForm.svelte";
     import DomainDetails from "$lib/DomainDetails.svelte";
     import History from "$lib/History.svelte";
@@ -11,6 +13,11 @@
     let domainInfo: DomainInfo | null;
     let searchForm: SearchForm;
     let history: History;
+
+    let tgver: string = "???";
+    onMount(() => {
+        tgver = Telegram.WebApp.version;
+    });
 
     function doSearch(event: CustomEvent<string>) {
         let dm = event.detail;
@@ -28,6 +35,12 @@
     }
 </script>
 
+<style global lang="scss">
+@import './../lib/normalize.min.css';
+@import './../lib/skeleton.css';
+@import './../lib/site.scss';
+</style>
+
 <h1>TON Domain Inspector</h1>
 <p>
     Get information about <code>*.ton</code> domains: current status/owner, auction
@@ -40,4 +53,4 @@
 
 <History bind:this={history} on:restore={restoreFromHistory} />
 
-<p class="mt-5 small muted">Debug info: Telegram Bot API v{Telegram.WebApp.version}</p>
+<p class="mt-5 small muted">Debug info: Telegram Bot API v{tgver}</p>
