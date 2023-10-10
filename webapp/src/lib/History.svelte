@@ -19,16 +19,21 @@
         domains.unshift(domain);
         domains.splice(5);
         domains = domains; // to update bindings
-        Telegram.WebApp.CloudStorage.setItem("domains", domains.join("\n"));
+        if (Telegram.WebApp.isVersionAtLeast("6.9")) {
+            Telegram.WebApp.CloudStorage.setItem("domains", domains.join("\n"));
+        }
     }
 
     onMount(() => {
-        Telegram.WebApp.CloudStorage.getItem("domains", (e, v) => 
+        if (Telegram.WebApp.isVersionAtLeast("6.9"))
         {
-            if (e == null) {
-                domains = v.split("\n");
-            }
-        });
+            Telegram.WebApp.CloudStorage.getItem("domains", (e, v) => 
+            {
+                if (e == null) {
+                    domains = v.split("\n");
+                }
+            });
+        }
     });
 </script>
 
