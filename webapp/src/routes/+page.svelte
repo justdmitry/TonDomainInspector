@@ -7,7 +7,7 @@
 
     import type { DomainInfo } from "$lib/DomainInfo";
 
-    import { PUBLIC_SERVER } from '$env/static/public';
+    import { env } from '$env/dynamic/public';
 
     let domain: string = "";
     let domainInfo: DomainInfo | null;
@@ -23,7 +23,7 @@
         let dm = event.detail;
         domainInfo = null;
         history.add(dm);
-        fetch(PUBLIC_SERVER + "?domain=" + dm)
+        fetch(env.PUBLIC_SERVER + "?domain=" + dm)
             .then(r => r.json())
             .then(r => { domainInfo = r as DomainInfo; domainInfo.FullName = dm; })
             .finally(() => { searchForm.loadingCompleted(); });
